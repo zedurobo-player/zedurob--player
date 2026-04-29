@@ -34,8 +34,42 @@
                     }
                 }
             }
+     
         }
-    </script>
+        
+  const form = document.getElementById("contactForm");
+  const status = document.getElementById("status");
+
+  form.addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    status.textContent = "Enviando...";
+
+    const data = {
+      nome: form.nome.value,
+      email: form.email.value,
+      mensagem: form.mensagem.value,
+    };
+
+    try {
+      await fetch("https://script.google.com/macros/s/AKfycbzkjMGxeZMGsQyeh3RPfQwREIckpkReFNmlEHd5bbfFFZdislpEi8S7FPmoqeynJnTn/exec", {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      status.textContent = "Mensagem enviada com sucesso!";
+      form.reset();
+
+    } catch (error) {
+      status.textContent = "Erro ao enviar. Tente novamente.";
+    }
+  });
+</script>
+    
     <style>
         body {
             background-color: #0f0f13;
@@ -244,7 +278,7 @@
                         SISTEMA ONLINE
                     </div>
 
-                    <form id="requestForm" class="space-y-6">
+                    <form id="contactForm" class="space-y-6">
                         <div>
                             <label class="block text-gray-400 text-sm font-tech mb-2">IDENTIFICAÇÃO (NOME)</label>
                             <input type="text" id="userName" required
@@ -271,6 +305,8 @@
                 </div>
             </div>
         </div>
+        <p id="status"></p>
+
     </section>
 
     <!-- Vídeos Recentes -->
